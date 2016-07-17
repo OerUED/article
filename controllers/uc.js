@@ -34,6 +34,14 @@ exports.logout = function(req, res) {
 
 exports.add = function(req, res, next) {
     var obj = req.body;
+
+    var errorMsg = '';
+
+    if (obj.email === undefined || obj.password === undefined) {
+        errorMsg = '邮箱或密码不能为空';
+        return response(req, res, errorMsg, null);
+    }
+
     var password = crypto.createHmac('sha256', config.secret)
         .update('123456')
         .digest('hex');
@@ -82,6 +90,12 @@ exports.update = function(req, res) {
     obj = Object.assign(obj, {
         'updated': Date.now
     });
+
+    if (obj.password) {
+        obj.password = crypto.createHmac('sha256', config.secret)
+            .update(obj.password)
+            .digest('hex');
+    }
 
     uc.get(id).then(function(_res) {
         _res = Object.assign(_res, obj);
@@ -132,8 +146,3 @@ exports.get = function(req, res) {
         response(req, res, err, null);
     });
 }
-
-
-
-
-
