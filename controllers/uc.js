@@ -30,7 +30,7 @@ exports.logout = function(req, res) {
 exports.add = function(req, res, next) {
     var obj = req.body;
     var password = crypto.createHmac('sha256', config.secret)
-        .update(obj.password)
+        .update('123456')
         .digest('hex');
 
     Object.assign(obj, {
@@ -38,7 +38,7 @@ exports.add = function(req, res, next) {
     });
 
     uc.save(obj).then(function(data) {
-        response(req, res, null, data);
+        response(req, res, null, null);
     }).catch(function(err) {
         response(req, res, err, null);
     });
@@ -57,7 +57,7 @@ exports.list = function(req, res) {
     };
 
     var query = {
-        status: 1
+        // status: 1
     };
 
     if (keyword) {
@@ -88,19 +88,32 @@ exports.update = function(req, res) {
     });
 }
 
-
-exports.delete = function(req, res) {
+// 逻辑删除
+exports.remove = function(req, res) {
     var id = req.params.id;
     var obj = req.body;
-    obj = Object.assign(obj, {
-        'status': 0
-    });
-
+    var status;
     uc.get(id).then(function(_res) {
+        // 置非
+        status = !_res.status;
+        obj = Object.assign(obj, {
+            'status': status
+        });
         _res = Object.assign(_res, obj);
         return uc.update(_res);
     }).then(function(data) {
-        response(req, res, null, data);
+        response(req, res, null, status);
+    }).catch(function(err) {
+        response(req, res, err, null);
+    });
+}
+
+// 物理删除
+exports.delete = function(req, res) {
+    var id = req.params.id;
+
+    uc.remove(id).then(function(data) {
+        response(req, res, null, null);
     }).catch(function(err) {
         response(req, res, err, null);
     });

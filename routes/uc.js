@@ -13,11 +13,13 @@ router.get('/logout',controller.logout);
 // 新增加用户
 router.post('',auth.hasRole,controller.add);
 // 获取用户列表
-router.get('/list',auth.hasRole,controller.list);
+router.get('',auth.hasRole,controller.list);
 // 更新某个用户
 router.put('/:id', auth.hasRole, controller.update);
 // 删除某个用户（逻辑删除）
-router.delete('/:id', auth.hasRole, controller.delete);
+router.delete('/:id', auth.hasRole, controller.remove);
+// 删除某个用户（逻辑删除）
+router.delete('/:id/delete', auth.hasRole, controller.delete);
 // 获取某个用户的信息
 router.get('/:id', auth.hasRole, controller.get);
 
