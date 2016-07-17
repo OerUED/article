@@ -6,11 +6,16 @@ var response = require('../tools/tool').callback;
 exports.login = function(req, res) {
     var email = req.body.email,
         password = req.body.password;
+    var errorMsg = '';
+
+    if (email === undefined || password === undefined) {
+        errorMsg = '邮箱或密码不能为空';
+        return response(req, res, errorMsg, null);
+    }
 
     password = crypto.createHmac('sha256', config.secret)
         .update(password)
         .digest('hex');
-
     uc.find({
         email: email,
         password: password
