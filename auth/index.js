@@ -6,7 +6,7 @@
  * 验证用户权限
  */
 function hasRole(req, res, next) {
-    if (req.session.user) {
+    if (req.session.uc) {
         next();
     } else {
         next();
