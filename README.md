@@ -1,2 +1,2 @@
-# bug_track
-简单bug跟踪系统
+# article
+文章系统API
