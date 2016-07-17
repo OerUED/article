@@ -13,6 +13,8 @@ mongoose.connect(dburl, function (err) {
 
 // models
 require('./uc');
+require('./article');
 
 exports.Uc = mongoose.model('Uc');
+exports.Article = mongoose.model('Article');
 
