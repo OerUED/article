@@ -1,0 +1,9 @@
+{
+    "apps": [{
+        "name": "article",
+        "script": "npm start",
+        "watch": false,
+        "ignore_watch" : ["[\\/\\\\]\\./", "node_modules","tmp","logs","public"],
+        "log_date_format": "YYYY-MM-DD HH:mm Z",
+    }]
+}
